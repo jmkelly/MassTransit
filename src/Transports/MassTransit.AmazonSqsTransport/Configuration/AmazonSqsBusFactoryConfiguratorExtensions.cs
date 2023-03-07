@@ -1,7 +1,6 @@
 ﻿namespace MassTransit
 {
     using System;
-    using Amazon.Runtime;
     using Amazon.SimpleNotificationService;
     using Amazon.SQS;
     using AmazonSqsTransport.Configuration;
@@ -25,6 +24,7 @@
         public static void UsingAmazonSqs(this IBusRegistrationConfigurator configurator,
             Action<IBusRegistrationContext, IAmazonSqsBusFactoryConfigurator> configure = null)
         {
+           
             configurator.SetBusFactory(new AmazonSqsRegistrationBusFactory(configure));
         }
 
@@ -37,19 +37,6 @@
 
                 h.Config(new AmazonSQSConfig { ServiceURL = "http://localhost:4566" });
                 h.Config(new AmazonSimpleNotificationServiceConfig { ServiceURL = "http://localhost:4566" });
-            });
-        }
-
-        public static void UseDefaultHost(this IAmazonSqsBusFactoryConfigurator configurator)
-        {
-           configurator.UseDefaultHost(FallbackRegionFactory.GetRegionEndpoint());
-        }
-
-        public static void UseDefaultHost(this IAmazonSqsBusFactoryConfigurator configurator, Amazon.RegionEndpoint endpoint)
-        {
-            configurator.Host(endpoint.SystemName, h =>
-            {
-                h.Credentials(FallbackCredentialsFactory.GetCredentials());
             });
         }
     }
