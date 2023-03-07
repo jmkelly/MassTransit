@@ -18,6 +18,8 @@ namespace MassTransit.AmazonSqsTransport.Configuration
         public ConfigurationHostSettings()
         {
             _hostAddress = new Lazy<Uri>(FormatHostAddress);
+            Credentials = FallbackCredentialsFactory.GetCredentials(); 
+            Region = FallbackRegionFactory.GetRegionEndpoint();
         }
 
         public AWSCredentials Credentials
